@@ -1,7 +1,7 @@
 # AsyncAwait
-The library that ports the async/await functionality into Go!
-## What does this library do?
- AsyncAwait, as its name suggests, adds the async/await functionality you might be familiar with from other langauges such as Javascript, Rust, C# ect.
+The module that ports the async/await functionality into Go!
+## What does this module do?
+ AsyncAwait, as its name suggests, adds the async/await functionality you might be familiar with from other languages such as Javascript, Rust, C# etc.
 
  ```go
  import (
@@ -19,7 +19,7 @@ The library that ports the async/await functionality into Go!
     // future is of type Future[Int]
  }
  ```
- The *async* functions start to run the received function in the background and return a *future*, which can later be *await*-ed in order to obtain the result.
+ The *async* functions start to run the received function in the background and return a *future*, which can later be *await*-ed to obtain the result.
 
  *Futures* can be *await*-ed by using the `asyncawait.Await` function
  ```go
@@ -35,7 +35,7 @@ The library that ports the async/await functionality into Go!
  Go's concurrency model is indeed excellent, and I implore you to continue using it to its fullest extent!
  *Channels* and *Select* often offer a much more elegant solution to a concurrency problem than *async* and *await* do.
 
- However, there are some situations where async/await could cut a LOT of boilerplate, and this is where this library comes in.
+ However, there are some situations where async/await could cut a LOT of boilerplate, and this is where this module comes in.
 
  Consider the following code: 
  ```go
@@ -49,7 +49,7 @@ The library that ports the async/await functionality into Go!
  }
  ```
  You have some function that takes time; Maybe it fetches something from the internet or reads from a file, and it returns some value and an error.
- You need the result of the function, so you call it, handle the errors if there are any, and use the value. So far so good.
+ You need the function's result, so you call it, handle any errors, and use the value. So far, so good.
 
  Now imagine you needed to use another slow function:
  ```go
@@ -170,7 +170,7 @@ With AsyncAwait you could simplify this function like this:
 
  There are also corresponding `asyncawait.Await` functions for all these amounts and a respective `asyncawait.Future` type that implements it's own `Await` function.
 
- There is also `asyncawait.Async0`, `asyncawait.Future0` and `asyncawait.Await0`, included for completeness' sake, which can be used to wait on a function that doesn't return anything. Although in this case you might be better off waiting in the traditional Gophery ways.
+ There is also `asyncawait.Async0`, `asyncawait.Future0` and `asyncawait.Await0`, included for completeness' sake, which can be used to wait on a function that doesn't return anything. However in this case you might be better off waiting in the traditional Gophery ways.
 
 ## But what if my function returns 6 or more values? 
 If you have a function that returns more than 3 values, you should probably refactor it and use a struct as the return type.
