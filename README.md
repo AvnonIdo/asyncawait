@@ -32,7 +32,7 @@ The library that ports the async/await functionality into Go!
  // num is of type int
  ```
  ## But wait, isn't Go's concurrency model superior to the async/await model?
- Go's concurrency model is indeed excellent, and I implore you to continue to use it to its fullest extent!
+ Go's concurrency model is indeed excellent, and I implore you to continue using it to its fullest extent!
  *Channels* and *Select* often offer a much more elegant solution to a concurrency problem than *async* and *await* do.
 
  However, there are some situations where async/await could cut a LOT of boilerplate, and this is where this library comes in.
