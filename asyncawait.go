@@ -23,6 +23,10 @@ type tuple5[T, W, C, D, E any] struct {
 	value5 E
 }
 
+type Future0 struct {
+	output chan struct{}
+}
+
 type Future[T any] struct {
 	output chan T
 }
@@ -37,6 +41,17 @@ type Future4[T, W, C, D any] struct {
 }
 type Future5[T, W, C, D, E any] struct {
 	output chan tuple5[T, W, C, D, E]
+}
+
+func Async0(fn func()) Future0 {
+	output := make(chan struct{})
+	go func() {
+		fn()
+		output <- struct{}{}
+	}()
+	return Future0{
+		output,
+	}
 }
 
 func Async[T any](fn func() T) Future[T] {
@@ -116,6 +131,14 @@ func Async5[T, W, C, D, E any](fn func() (T, W, C, D, E)) Future5[T, W, C, D, E]
 	}
 }
 
+func Await0(future Future0) {
+	_, ok := <-future.output
+	if !ok {
+		panic("you can't await the same future twice!")
+	}
+	close(future.output)
+}
+
 func Await[T any](future Future[T]) T {
 	result, ok := <-future.output
 	if !ok {
@@ -164,6 +187,10 @@ func Await5[T, W, C, D, E any](future Future5[T, W, C, D, E]) (T, W, C, D, E) {
 	close(future.output)
 
 	return result.value1, result.value2, result.value3, result.value4, result.value5
+}
+
+func (f Future0) Await() {
+	Await0(f)
 }
 
 func (f Future[T]) Await() T {

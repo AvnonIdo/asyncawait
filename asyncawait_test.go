@@ -1,12 +1,44 @@
 package asyncawait_test
 
 import (
+	"fmt"
 	"math"
 	"testing"
 	"time"
 
 	"github.com/AvnonIdo/asyncawait"
 )
+
+func addAndPrintSleepFiveSeconds(num1, num2 int) {
+	time.Sleep(5 * time.Second)
+	fmt.Println(num1 + num2)
+}
+
+func TestAsync0(t *testing.T) {
+	startime := time.Now()
+	future1 := asyncawait.Async0(func() { addAndPrintSleepFiveSeconds(1, 2) })
+	future2 := asyncawait.Async0(func() { addAndPrintSleepFiveSeconds(3, 4) })
+
+	asyncawait.Await0(future1)
+	asyncawait.Await0(future2)
+
+	if time.Since(startime) >= 6*time.Second {
+		t.Errorf("Test took longer than expected. Expected runtime = ~5 seconds. Actual runtime = %v seconds", time.Since(startime).Seconds())
+	}
+}
+
+func TestAsync0Method(t *testing.T) {
+	startime := time.Now()
+	future1 := asyncawait.Async0(func() { addAndPrintSleepFiveSeconds(1, 2) })
+	future2 := asyncawait.Async0(func() { addAndPrintSleepFiveSeconds(3, 4) })
+
+	future1.Await()
+	future2.Await()
+
+	if time.Since(startime) >= 6*time.Second {
+		t.Errorf("Test took longer than expected. Expected runtime = ~5 seconds. Actual runtime = %v seconds", time.Since(startime).Seconds())
+	}
+}
 
 func addAndSleepFiveSeconds(num1, num2 int) int {
 	time.Sleep(5 * time.Second)
